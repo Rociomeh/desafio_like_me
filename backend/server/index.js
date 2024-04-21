@@ -1,27 +1,26 @@
 const express = require ('express')
 const cors = require ('cors')
 const {Pool} = require ('pg')
-//require('dotenv').config()
+require('dotenv').config()
 
 const pool = new Pool ({
     host: 'localhost',
     user: 'postgres',
-    password: 'h0lA', //password: process.env.PASSWORD //esto hace que el archivo env no se suba a git, y por ende no se muestre la contraseña
-    database: 'likeme',
+    password: 'h0lA',
+    database: 'postgres',
     allowExitOnIdle: true
-
 })
 
 const app = express()
 
-app.listen(3000, () => console.log ('servidor corriendo'))
+app.listen(3001, () => console.log ('servidor corriendo'))
 
 //middleware
 app.use (express.json())
 app.use(cors())
 
 //ruta
-app.get("/get", async (req, res) => {
+app.get("/posts", async (req, res) => {
     try{
         console.log("entre al get  ")
         const query = "SELECT * FROM posts;" //llama tabla de base de datos
@@ -30,7 +29,7 @@ app.get("/get", async (req, res) => {
             res.json(rows)
             console.log("res "+res)
     } catch (error) {
-        console.log('hay un error', error.message)
+        console.log('hay un error en el get', error.message)
     }
 })
 
@@ -44,6 +43,6 @@ app.post("/posts", async (req, res) => {
         const {rows} = await pool.query(query, VALUES)
         res.json("post creado!")
     } catch (error) {
-        console.log('hay un error', error.message)
+        console.log('hay un error en el post', error.message)
     }
 })

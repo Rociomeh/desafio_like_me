@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Form from "./components/Form";
 import Post from "./components/Post";
 
-const urlBaseServer = "http://localhost:3000";
+const urlBaseServer = "http://localhost:3001";
 
 function App() {
   const [titulo, setTitulo] = useState("");
@@ -18,7 +18,7 @@ function App() {
 
   const agregarPost = async () => {
     const post = { titulo, url: imgSrc, descripcion };
-    console.log("dentro de agregarPost");
+    console.log("dentro de agregar posts")
     await axios.post(urlBaseServer + "/posts", post);
     getPosts();
   };
